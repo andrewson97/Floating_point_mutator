@@ -3,54 +3,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-uint32_t flipExponent(uint8_t* buffer) {
-    uint32_t value = 0;
-    uint32_t sign = (buffer[3] >> 7) & 1;
-    uint32_t exponent = ((buffer[3] & 0x7F) << 1) | ((buffer[2] >> 7) & 1);
-    uint32_t mantissa = ((buffer[2] & 0x7F) << 16) | (buffer[1] << 8) | buffer[0];
-
-    printf("\nsign\n");
-    for (int i = 31; i >= 0; i--) {
-        int bit = (sign >> i) & 1;
-        printf("%d", bit);
-    }
-    printf("\nexp\n");
-    for (int i = 31; i >= 0; i--) {
-        int bit = (exponent >> i) & 1;
-        printf("%d", bit);
-    }
-    printf("\nmant\n");
-    for (int i = 31; i >= 0; i--) {
-        int bit = (mantissa >> i) & 1;
-        printf("%d", bit);
-    }
-
-    uint32_t bitPos = rand() % 8;
-    exponent ^= 1U << bitPos;
-
-    printf("\nnew_sign\n");
-    for (int i = 31; i >= 0; i--) {
-        int bit = (sign >> i) & 1;
-        printf("%d", bit);
-    }
-    printf("\nnew_exp\n");
-    for (int i = 31; i >= 0; i--) {
-        int bit = (exponent >> i) & 1;
-        printf("%d", bit);
-    }
-    printf("\nnew_mant\n");
-    for (int i = 31; i >= 0; i--) {
-        int bit = (mantissa >> i) & 1;
-        printf("%d", bit);
-    }
-
-    uint32_t intValue =  mantissa | (sign << 31) | (exponent << 23) ;
-
-
-    return intValue;
-
-
-}
 
 int main() {
     uint8_t buf [4];
@@ -71,9 +23,12 @@ int main() {
     }
 
 
-    uint32_t intValue = flipExponent(buffer);
+    uint32_t intValue ;
+    memcpy(&intValue, buffer, sizeof(uint32_t));
+    intValue ^= (1U << 31);
 
     memcpy(buf, &intValue, sizeof(float));
+
     float mutatedValue;
     memcpy(&mutatedValue, buf, sizeof(float));
     printf("\nAfter: %.32f\n", mutatedValue);

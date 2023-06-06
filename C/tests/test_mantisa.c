@@ -28,17 +28,17 @@ uint32_t flipMantissa(uint8_t* buffer) {
     uint32_t bitPos = rand() % 23;
     mantissa ^= 1U << bitPos;
 
-    printf("\nsign\n");
+    printf("\nnew_sign\n");
     for (int i = 31; i >= 0; i--) {
         int bit = (sign >> i) & 1;
         printf("%d", bit);
     }
-    printf("\nexp\n");
+    printf("\nnew_exp\n");
     for (int i = 31; i >= 0; i--) {
         int bit = (exponent >> i) & 1;
         printf("%d", bit);
     }
-    printf("\nmant\n");
+    printf("\nnew_mant\n");
     for (int i = 31; i >= 0; i--) {
         int bit = (mantissa >> i) & 1;
         printf("%d", bit);
@@ -74,6 +74,9 @@ int main() {
     uint32_t intValue = flipMantissa(buffer);
 
     memcpy(buf, &intValue, sizeof(float));
+    float mutatedValue;
+    memcpy(&mutatedValue, buf, sizeof(float));
+    printf("\nAfter: %.32f\n", mutatedValue);
 
     // printf("\nAefore: %.32f\n", intValue);
     printf(" \n");

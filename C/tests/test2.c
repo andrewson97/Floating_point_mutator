@@ -42,7 +42,7 @@ int main() {
     printf("1Before flipping sign bit: %.32f\n", originalValue);
 
     printf("2Before flipping sign bit: ");
-    for (int i = 0; i < 4; i++) {
+    for (int i = 3; i >= 0; i--) {
         printf("%02X", buffer[i]);
     }
 
@@ -55,7 +55,7 @@ int main() {
     printf("\n1After flipping sign bit:  %.32f\n", flippedValue);
 
     printf("2After flipping sign bit: ");
-    for (int i = 0; i < 4; i++) {
+    for (int i = 3; i >= 0; i--) {
         printf("%02X ", buffer[i]);
     }
 
