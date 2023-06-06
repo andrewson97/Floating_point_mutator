@@ -59,7 +59,7 @@ int main() {
     memcpy(&originalValue, buffer, sizeof(float));
     printf("\nBefore: %.32f\n", originalValue);
     printf(" \n");
-    for (int i = 0; i < 4; i++) {
+    for (int i = 3; i >= 0; i--) {
         //printf("%02X ", buffer[i]);
         uint8_t byte = buffer[i];
 
@@ -77,7 +77,7 @@ int main() {
 
     // printf("\nAefore: %.32f\n", intValue);
     printf(" \n");
-    for (int i = 0; i < 4; i++) {
+    for (int i = 3; i >= 0; i--) {
         //printf("%02X ", buffer[i]);
         uint8_t byte = buf[i];
 

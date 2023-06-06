@@ -48,9 +48,8 @@ my_mutator_t *afl_custom_init(afl_state_t *afl, unsigned int seed)
 void flipMantissaBit(uint8_t *buf1,my_mutator_t *data, u8 **out_buf) {
     // single-precision floating-point value (float)
 
-    
-    uint32_t sign = (buffer[0] >> 7) & 1;
-    uint32_t exponent = ((buffer[3] & 0x7F) << 1) | ((buffer[1] >> 7) & 1);
+    uint32_t sign = (buf1[0] >> 7) & 1;
+    uint32_t exponent = ((buf1[3] & 0x7F) << 1) | ((buf1[1] >> 7) & 1);
     uint32_t mantissa = ((buf1[2] & 0x7F) << 16) | (buf1[1] << 8) | buf1[0];
 
     //flipping random bit of mantissa
@@ -60,7 +59,7 @@ void flipMantissaBit(uint8_t *buf1,my_mutator_t *data, u8 **out_buf) {
     //combining the segments of the float
     uint32_t intValue = (sign << 31) | (exponent << 23) | mantissa;
 
-    memcpy(data->fuzz_buf, intValue, sizeof(float));
+    memcpy(data->fuzz_buf, &intValue, sizeof(float));
 
     *out_buf = data->fuzz_buf;
     
