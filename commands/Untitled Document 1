@@ -1,0 +1,41 @@
+sudo bash -c "echo home/andrew/FYP/test_fuzz/dumps/core.%e.%p > /proc/sys/kernel/core_pattern"
+
+cd /sys/devices/system/cpu
+
+sudo sh -c "echo performance | tee cpu*/cpufreq/scaling_governor"
+
+sudo chmod 777 -R /home/andrew/FYP
+
+
+====================================================
+cd home/andrew/FYP/AFL++/AFLplusplus
+
+sudo afl-fuzz -Q -i /home/andrew/FYP/test_fuzz/input-json/ -o /home/andrew/FYP/test_fuzz/output-json/ -- /home/andrew/FYP/test_fuzz/squashfs-root/usr/sbin/jsonparse @@ 
+
+
+for non instrumented mode
+
+sudo afl-fuzz -n -i /home/andrew/FYP/test_fuzz/input-json/ -o /home/andrew/FYP/test_fuzz/output-json/ -- /home/andrew/FYP/test_fuzz/squashfs-root/usr/sbin/jsonparse @@ 
+
+
+
+//For hand shake problem changed the env variable AFL_NO_FORKSRV=1
+
+sudo AFL_NO_FORKSRV=1 AFL_DEBUG=1 afl-fuzz -Q -i /home/andrew/FYP/test_fuzz/input-json/ -o /home/andrew/FYP/test_fuzz/output-json1/ -- /home/andrew/FYP/test_fuzz/squashfs-root/usr/sbin/jsonparse @@ 
+
+sudo AFL_NO_FORKSRV=1 AFL_DEBUG=1 afl-fuzz -Q -i /home/andrew/FYP/test_fuzz/input-xml/ -o /home/andrew/FYP/test_fuzz/output-xml2/ -- /home/andrew/FYP/test_fuzz/squashfs-root/usr/sbin/xmlparser1 @@
+=====================================================
+
+cd home/andrew/FYP/test_fuzz
+
+QEMU_LD_PREFIX=./squashfs-root/ ../AFL++/AFLplusplus/afl-fuzz -Q -i input-xml -o output-xml -- ./squashfs-root/usr/sbin/xmlparser1 -f @@
+
+========================================================
+compiling-
+AFL_HARDEN=1 afl-gcc-fast -fsanitize=address,undefined -ggdb -O0  int_ovr.c -o int_ovr
+fuzzing--
+afl-fuzz -Q -D -i input -o output6Q -- ./imgRead_qemu @@
+
+
+
+

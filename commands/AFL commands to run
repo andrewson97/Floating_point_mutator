@@ -1,0 +1,54 @@
+compile -- in the target program directory
+
+AFL_HARDEN=1 afl-gcc-fast -fsanitize=address,undefined -ggdb -O0  imgRead.c -o imgRead_111
+
+
+run --- in the same directory
+
+
+afl-fuzz -D -i input -o output6Q -- ./imgRead_111
+
+
+import mutator----
+
+export PYTHONPATH="home/andrew/FYP/custom_mutator/"
+export AFL_PYTHON_MODULE=fp_mu
+
+
+
+
+
+updated command-----
+AFL_CUSTOM_MUTATOR_ONLY=1 AFL_PYTHON_MODULE=fp_mu PYTHONPATH=/home/andrew/FYP/custom_mutator/ afl-fuzz -i input -o output6Q -- ./imgRead_111
+
+
+
+
+
+
+SO
+
+gcc -I/home/andrew/FYP/AFL++/AFLplusplus/include -I. -shared -Wall -O3 fp_sf.c -o fp_sf.so
+
+export c
+export AFL_CUSTOM_MUTATOR_LIBRARY="/home/andrew/FYP/custom_mutator/C/fp_sf.so"
+
+export AFL_CUSTOM_MUTATOR_LIBRARY="/home/andrew/FYP/custom_mutator/C/fp_sf.so;/home/andrew/FYP/custom_mutator/C/fp_mf.so;/home/andrew/FYP/custom_mutator/C/fp_ef.so;/home/andrew/FYP/custom_mutator/C/fp_ma.so;/home/andrew/FYP/custom_mutator/C/fp_ea.so"
+
+
+
+
+GSL LIBRARY--------
+in GSL directory
+CC=afl-gcc ./configure
+cmake
+
+
+to create so
+AFL_HARDEN=1 afl-gcc -Wall -I/home/andrew/FYP/targets/gsl-latest/gsl-2.7.1 -c test.c
+
+to create executable
+AFL_HARDEN=1 afl-gcc -L/usr/local/lib test.o -lgsl -lgslcblas -lm -o test
+
+
+
