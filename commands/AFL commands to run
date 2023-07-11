@@ -41,7 +41,7 @@ export AFL_CUSTOM_MUTATOR_LIBRARY="/home/andrew/FYP/custom_mutator/C/fp_sf.so;/h
 GSL LIBRARY--------
 in GSL directory
 CC=afl-gcc ./configure
-cmake
+make
 
 
 to create so
